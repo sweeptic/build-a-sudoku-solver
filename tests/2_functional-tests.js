@@ -64,7 +64,6 @@ suite('Functional Tests', () => {
   });
 
   test('Check a puzzle placement with single placement conflict ( row ): POST request to /api/check', function (done) {
-    //  puzzleString, row, column, value;
     chai
       .request(server)
       .post('/api/check')
@@ -80,13 +79,12 @@ suite('Functional Tests', () => {
         assert.property(res.body, 'valid', 'response should have valid property');
         assert.property(res.body, 'conflict', 'response should have conflict property');
         assert.isFalse(res.body.valid);
-        assert.equal(res.body.conflict, 'row');
+        assert.deepEqual(res.body.conflict, ['row']);
         done();
       });
   });
 
   test('Check a puzzle placement with single placement conflict ( column ): POST request to /api/check', function (done) {
-    //  puzzleString, row, column, value;
     chai
       .request(server)
       .post('/api/check')
@@ -102,13 +100,12 @@ suite('Functional Tests', () => {
         assert.property(res.body, 'valid', 'response should have valid property');
         assert.property(res.body, 'conflict', 'response should have conflict property');
         assert.isFalse(res.body.valid);
-        assert.equal(res.body.conflict, 'column');
+        assert.deepEqual(res.body.conflict, ['column']);
         done();
       });
   });
 
   test('Check a puzzle placement with single placement conflict ( region ): POST request to /api/check', function (done) {
-    //  puzzleString, row, column, value;
     chai
       .request(server)
       .post('/api/check')
@@ -124,7 +121,7 @@ suite('Functional Tests', () => {
         assert.property(res.body, 'valid', 'response should have valid property');
         assert.property(res.body, 'conflict', 'response should have conflict property');
         assert.isFalse(res.body.valid);
-        assert.equal(res.body.conflict, 'region');
+        assert.deepEqual(res.body.conflict, ['region']);
         done();
       });
   });
