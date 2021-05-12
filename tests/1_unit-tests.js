@@ -76,6 +76,23 @@ suite('UnitTests', () => {
     assert.isArray(result.conflict);
     assert.deepEqual(result.conflict, ['column']);
   });
+
+  test('Logic handles a valid region (3x3 grid) placement ', () => {
+    const result = solver.checkRegionPlacement(validPuzzleString, 'a', 1, 7);
+    assert.isObject(result);
+    assert.property(result, 'valid', 'result should have valid property');
+    assert.isTrue(result.valid);
+  });
+
+  test('Logic handles a invalid region (3x3 grid) placement ', () => {
+    const result = solver.checkRegionPlacement(validPuzzleString, 'a', 1, 8);
+    assert.isObject(result);
+    assert.property(result, 'valid', 'result should have valid property');
+    assert.property(result, 'conflict', 'result should have conflict property');
+    assert.isFalse(result.valid);
+    assert.isArray(result.conflict);
+    assert.deepEqual(result.conflict, ['region']);
+  });
 });
 
 /*
@@ -84,8 +101,8 @@ suite('UnitTests', () => {
 *Logic handles a puzzle string that is not 81 characters in length
 *Logic handles a valid row placement
 *Logic handles an invalid row placement
-Logic handles a valid column placement
-Logic handles an invalid column placement
+*Logic handles a valid column placement
+*Logic handles an invalid column placement
 Logic handles a valid region (3x3 grid) placement
 Logic handles an invalid region (3x3 grid) placement
 Valid puzzle strings pass the solver
