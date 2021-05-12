@@ -1,3 +1,4 @@
+import { getRow } from './Utils/utils';
 class SudokuSolver {
   validate(puzzleString) {
     const isValid = /^[0-9.]{81}$/.test(puzzleString);
@@ -14,7 +15,13 @@ class SudokuSolver {
     return { isValid, error };
   }
 
-  checkRowPlacement(puzzleString, row, column, value) {}
+  checkRowPlacement(puzzleString, rowAlpha, column, value) {
+    const row = getRow(rowAlpha);
+
+    return puzzleString.slice((row - 1) * 9, row * 9).includes(value)
+      ? { valid: false, conflict: ['row'] }
+      : { valid: true };
+  }
 
   checkColPlacement(puzzleString, row, column, value) {}
 
