@@ -7,8 +7,9 @@ module.exports = function (app) {
 
   app.route('/api/check').post((req, res) => {
     const puzzleString = req.body.puzzle;
-    const [row, column] = [...req.body.coordinate.split('')];
-    const value = req.body.value;
+    const row = req.body.coordinate.slice(0, 1);
+    const column = +req.body.coordinate.slice(1, 2);
+    const value = +req.body.value;
     const conflicts = [];
 
     const rowP = solver.checkRowPlacement(puzzleString, row, column, value);

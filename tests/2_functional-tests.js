@@ -142,7 +142,7 @@ suite('Functional Tests', () => {
         assert.property(res.body, 'valid', 'response should have valid property');
         assert.property(res.body, 'conflict', 'response should have conflict property');
         assert.isFalse(res.body.valid);
-        assert.deepEqual(res.body.conflict, ['row', 'column', 'red stage']);
+        assert.deepEqual(res.body.conflict, ['row', 'column']);
         done();
       });
   });
@@ -163,7 +163,7 @@ suite('Functional Tests', () => {
         assert.property(res.body, 'valid', 'response should have valid property');
         assert.property(res.body, 'conflict', 'response should have conflict property');
         assert.isFalse(res.body.valid);
-        assert.deepEqual(res.body.conflict, ['row', 'region', 'red stage']);
+        assert.deepEqual(res.body.conflict, ['row', 'region']);
         done();
       });
   });
@@ -184,7 +184,7 @@ suite('Functional Tests', () => {
         assert.property(res.body, 'valid', 'response should have valid property');
         assert.property(res.body, 'conflict', 'response should have conflict property');
         assert.isFalse(res.body.valid);
-        assert.deepEqual(res.body.conflict, ['column', 'region', 'red stage']);
+        assert.deepEqual(res.body.conflict, ['column', 'region']);
         done();
       });
   });
