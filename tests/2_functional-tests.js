@@ -205,7 +205,7 @@ suite('Functional Tests', () => {
         assert.property(res.body, 'valid', 'response should have valid property');
         assert.property(res.body, 'conflict', 'response should have conflict property');
         assert.isFalse(res.body.valid);
-        assert.deepEqual(res.body.conflict, ['row', 'column', 'region', 'red stage']);
+        assert.deepEqual(res.body.conflict, ['row', 'column', 'region']);
         done();
       });
   });
