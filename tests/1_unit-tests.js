@@ -42,14 +42,31 @@ suite('UnitTests', () => {
     assert.equal(result.isValid, false);
     assert.strictEqual(result.error, 'Expected puzzle to be 81 characters long');
   });
+
+  test('Logic handles a valid row placement ', () => {
+    const result = solver.checkRowPlacement(validPuzzleString, 'a', 1, 7);
+    assert.isObject(result);
+    assert.property(result, 'valid', 'result should have valid property');
+    assert.isTrue(result.valid);
+  });
+
+  test('Logic handles a invalid row placement ', () => {
+    const result = solver.checkRowPlacement(validPuzzleString, 'd', 3, 3);
+    assert.isObject(result);
+    assert.property(result, 'valid', 'result should have valid property');
+    assert.property(result, 'conflict', 'result should have conflict property');
+    assert.isFalse(result.valid);
+    assert.isArray(result.conflict);
+    assert.deepEqual(result.conflict, ['row']);
+  });
 });
 
 /*
 *Logic handles a valid puzzle string of 81 characters
 *Logic handles a puzzle string with invalid characters (not 1-9 or .)
 *Logic handles a puzzle string that is not 81 characters in length
-Logic handles a valid row placement
-Logic handles an invalid row placement
+*Logic handles a valid row placement
+*Logic handles an invalid row placement
 Logic handles a valid column placement
 Logic handles an invalid column placement
 Logic handles a valid region (3x3 grid) placement
