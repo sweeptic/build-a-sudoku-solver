@@ -188,6 +188,27 @@ suite('Functional Tests', () => {
         done();
       });
   });
+
+  test('Check a puzzle placement with all placement conflicts: POST request to /api/check', function (done) {
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: validPuzzleString,
+        coordinate: 'i9',
+        value: 3,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'valid', 'response should have valid property');
+        assert.property(res.body, 'conflict', 'response should have conflict property');
+        assert.isFalse(res.body.valid);
+        assert.deepEqual(res.body.conflict, ['row', 'column', 'region', 'red stage']);
+        done();
+      });
+  });
 });
 /*
 Solve a puzzle with valid puzzle string: POST request to /api/solve
@@ -198,7 +219,7 @@ Solve a puzzle that cannot be solved: POST request to /api/solve
 Check a puzzle placement with all fields: POST request to /api/check
 *Check a puzzle placement with single placement conflict: POST request to /api/check
 *Check a puzzle placement with multiple placement conflicts: POST request to /api/check
-Check a puzzle placement with all placement conflicts: POST request to /api/check
+*Check a puzzle placement with all placement conflicts: POST request to /api/check
 Check a puzzle placement with missing required fields: POST request to /api/check
 Check a puzzle placement with invalid characters: POST request to /api/check
 Check a puzzle placement with incorrect length: POST request to /api/check
