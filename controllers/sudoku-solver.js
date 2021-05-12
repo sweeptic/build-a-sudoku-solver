@@ -3,7 +3,9 @@ class SudokuSolver {
     const isValid = /^[0-9.]{81}$/.test(puzzleString);
 
     const error =
-      puzzleString.length !== 81
+      typeof puzzleString === 'undefined'
+        ? 'Required field missing'
+        : puzzleString.length !== 81
         ? 'Expected puzzle to be 81 characters long'
         : !isValid
         ? 'Invalid characters in puzzle'
