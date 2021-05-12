@@ -2,7 +2,11 @@ const chai = require('chai');
 const chaiHttp = require('chai-http');
 const assert = chai.assert;
 const server = require('../server');
-const { invalidPuzzleString, invalidPuzzleString_lessChar } = require('./cases/puzzle');
+const {
+  invalidPuzzleString,
+  invalidPuzzleString_lessChar,
+  validPuzzleString,
+} = require('./cases/puzzle');
 
 chai.use(chaiHttp);
 
@@ -58,8 +62,73 @@ suite('Functional Tests', () => {
         done();
       });
   });
-});
 
+  test('Check a puzzle placement with single placement conflict ( row ): POST request to /api/check', function (done) {
+    //  puzzleString, row, column, value;
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: validPuzzleString,
+        coordinate: 'd3',
+        value: 3,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'valid', 'response should have valid property');
+        assert.property(res.body, 'conflict', 'response should have conflict property');
+        assert.isFalse(res.body.valid);
+        assert.equal(res.body.conflict, 'row');
+        done();
+      });
+  });
+
+  test('Check a puzzle placement with single placement conflict ( column ): POST request to /api/check', function (done) {
+    //  puzzleString, row, column, value;
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: validPuzzleString,
+        coordinate: 'g4',
+        value: 7,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'valid', 'response should have valid property');
+        assert.property(res.body, 'conflict', 'response should have conflict property');
+        assert.isFalse(res.body.valid);
+        assert.equal(res.body.conflict, 'column');
+        done();
+      });
+  });
+
+  test('Check a puzzle placement with single placement conflict ( region ): POST request to /api/check', function (done) {
+    //  puzzleString, row, column, value;
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: validPuzzleString,
+        coordinate: 'a1',
+        value: 2,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'valid', 'response should have valid property');
+        assert.property(res.body, 'conflict', 'response should have conflict property');
+        assert.isFalse(res.body.valid);
+        assert.equal(res.body.conflict, 'region');
+        done();
+      });
+  });
+});
 /*
 Solve a puzzle with valid puzzle string: POST request to /api/solve
 *Solve a puzzle with missing puzzle string: POST request to /api/solve
@@ -67,7 +136,7 @@ Solve a puzzle with valid puzzle string: POST request to /api/solve
 *Solve a puzzle with incorrect length: POST request to /api/solve
 Solve a puzzle that cannot be solved: POST request to /api/solve
 Check a puzzle placement with all fields: POST request to /api/check
-Check a puzzle placement with single placement conflict: POST request to /api/check
+*Check a puzzle placement with single placement conflict: POST request to /api/check
 Check a puzzle placement with multiple placement conflicts: POST request to /api/check
 Check a puzzle placement with all placement conflicts: POST request to /api/check
 Check a puzzle placement with missing required fields: POST request to /api/check
