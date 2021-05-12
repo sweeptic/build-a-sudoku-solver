@@ -23,7 +23,18 @@ class SudokuSolver {
       : { valid: true };
   }
 
-  checkColPlacement(puzzleString, row, column, value) {}
+  checkColPlacement(puzzleString, row, column, value) {
+    const columns = [];
+
+    while (column <= 81) {
+      columns.push(puzzleString[column - 1]);
+      column += 9;
+    }
+
+    return columns.includes(value.toString())
+      ? { valid: false, conflict: ['column'] }
+      : { valid: true };
+  }
 
   checkRegionPlacement(puzzleString, row, column, value) {}
 
