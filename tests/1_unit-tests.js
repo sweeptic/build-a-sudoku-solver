@@ -59,6 +59,23 @@ suite('UnitTests', () => {
     assert.isArray(result.conflict);
     assert.deepEqual(result.conflict, ['row']);
   });
+
+  test('Logic handles a valid column placement ', () => {
+    const result = solver.checkColPlacement(validPuzzleString, 'a', 1, 7);
+    assert.isObject(result);
+    assert.property(result, 'valid', 'result should have valid property');
+    assert.isTrue(result.valid);
+  });
+
+  test('Logic handles a invalid column placement ', () => {
+    const result = solver.checkColPlacement(validPuzzleString, 'a', 1, 6);
+    assert.isObject(result);
+    assert.property(result, 'valid', 'result should have valid property');
+    assert.property(result, 'conflict', 'result should have conflict property');
+    assert.isFalse(result.valid);
+    assert.isArray(result.conflict);
+    assert.deepEqual(result.conflict, ['column']);
+  });
 });
 
 /*
