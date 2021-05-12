@@ -40,7 +40,7 @@ suite('Functional Tests', () => {
         assert.property(res.body, 'isValid', 'response should have isValid property');
         assert.property(res.body, 'error', 'response should have error property');
         assert.isFalse(res.body.isValid);
-        assert.equal(res.body.error, 'Expected puzzle to be 81 characters long - failed test');
+        assert.equal(res.body.error, 'Expected puzzle to be 81 characters long');
         done();
       });
   });
