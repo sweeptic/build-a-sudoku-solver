@@ -85,7 +85,7 @@ suite('UnitTests', () => {
   });
 
   test('Logic handles a invalid region (3x3 grid) placement ', () => {
-    const result = solver.checkRegionPlacement(validPuzzleString, 'a', 1, 8);
+    const result = solver.checkRegionPlacement(validPuzzleString, 'g', 5, 3);
     assert.isObject(result);
     assert.property(result, 'valid', 'result should have valid property');
     assert.property(result, 'conflict', 'result should have conflict property');
@@ -103,8 +103,8 @@ suite('UnitTests', () => {
 *Logic handles an invalid row placement
 *Logic handles a valid column placement
 *Logic handles an invalid column placement
-Logic handles a valid region (3x3 grid) placement
-Logic handles an invalid region (3x3 grid) placement
+*Logic handles a valid region (3x3 grid) placement
+*Logic handles an invalid region (3x3 grid) placement
 Valid puzzle strings pass the solver
 Invalid puzzle strings fail the solver
 Solver returns the the expected solution for an incomplete puzzle

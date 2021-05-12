@@ -36,7 +36,31 @@ class SudokuSolver {
       : { valid: true };
   }
 
-  checkRegionPlacement(puzzleString, row, column, value) {}
+  checkRegionPlacement(puzzleString, rowAlpha, column, value) {
+    const row = getRow(rowAlpha);
+    const region = [];
+    let startPos,
+      rowCount = 0;
+
+    //set matching region left top position by column
+    startPos = column % 3 !== 0 ? Math.floor(column / 3) * 3 + 1 : column - 2;
+
+    //set matching region left top position by row
+    startPos += (row % 3 !== 0 ? Math.floor(row / 3) : Math.floor(row / 3) - 1) * 27;
+
+    //fill the region array
+    while (rowCount < 3) {
+      for (let i = -1; i < 2; i++) {
+        region.push(puzzleString[startPos + i]);
+      }
+      startPos += 9;
+      rowCount++;
+    }
+
+    return region.includes(value.toString())
+      ? { valid: false, conflict: ['region'] }
+      : { valid: true };
+  }
 
   solve(puzzleString) {}
 }
