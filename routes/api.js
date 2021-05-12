@@ -6,6 +6,10 @@ module.exports = function (app) {
   let solver = new SudokuSolver();
 
   app.route('/api/check').post((req, res) => {
+    if (typeof req.body.coordinate === 'undefined' || typeof req.body.value === 'undefined') {
+      return res.status(200).json({ error: 'Required field(s) missing' });
+    }
+
     const puzzleString = req.body.puzzle;
     const row = req.body.coordinate.slice(0, 1);
     const column = +req.body.coordinate.slice(1, 2);
