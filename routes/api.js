@@ -10,6 +10,11 @@ module.exports = function (app) {
       return res.status(200).json({ error: 'Required field(s) missing' });
     }
 
+    const isValidCoord = /^[a-iA-I1-9]{2}$/.test(req.body.coordinate);
+    if (!isValidCoord) {
+      return res.status(200).json({ error: 'Invalid coordinate' });
+    }
+
     const puzzleString = req.body.puzzle;
     const validatedPuzzle = solver.validate(puzzleString);
 
