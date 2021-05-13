@@ -15,6 +15,11 @@ module.exports = function (app) {
       return res.status(200).json({ error: 'Invalid coordinate' });
     }
 
+    const isValidValue = /^[1-9]{1}$/.test(req.body.value);
+    if (!isValidValue) {
+      return res.status(200).json({ error: 'Invalid value' });
+    }
+
     const puzzleString = req.body.puzzle;
     const validatedPuzzle = solver.validate(puzzleString);
 
