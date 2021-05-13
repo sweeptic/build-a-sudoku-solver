@@ -6,6 +6,7 @@ const {
   invalidPuzzleString,
   invalidPuzzleString_lessChar,
   validPuzzleString,
+  invalidPuzzleString_moreChar,
 } = require('./cases/puzzle');
 
 chai.use(chaiHttp);
@@ -226,6 +227,44 @@ suite('Functional Tests', () => {
         done();
       });
   });
+
+  test('Check a puzzle placement with invalid characters: POST request to /api/check', function (done) {
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: invalidPuzzleString,
+        coordinate: 'i9',
+        value: 3,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'error', 'response should have valid property');
+        assert.deepEqual(res.body.error, 'Invalid characters in puzzle');
+        done();
+      });
+  });
+
+  test('Check a puzzle placement with incorrect length: POST request to /api/check', function (done) {
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: invalidPuzzleString_moreChar,
+        coordinate: 'i9',
+        value: 3,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'error', 'response should have valid property');
+        assert.deepEqual(res.body.error, 'Expected puzzle to be 81 characters long');
+        done();
+      });
+  });
 });
 /*
 Solve a puzzle with valid puzzle string: POST request to /api/solve
@@ -238,8 +277,8 @@ Check a puzzle placement with all fields: POST request to /api/check
 *Check a puzzle placement with multiple placement conflicts: POST request to /api/check
 *Check a puzzle placement with all placement conflicts: POST request to /api/check
 *Check a puzzle placement with missing required fields: POST request to /api/check
-Check a puzzle placement with invalid characters: POST request to /api/check
-Check a puzzle placement with incorrect length: POST request to /api/check
+*Check a puzzle placement with invalid characters: POST request to /api/check
+*Check a puzzle placement with incorrect length: POST request to /api/check
 Check a puzzle placement with invalid placement coordinate: POST request to /api/check
 Check a puzzle placement with invalid placement value: POST request to /api/check
 */
