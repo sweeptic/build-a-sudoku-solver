@@ -265,6 +265,63 @@ suite('Functional Tests', () => {
         done();
       });
   });
+
+  test('Check a puzzle placement with invalid placement coordinate (row): POST request to /api/check', function (done) {
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: validPuzzleString,
+        coordinate: 'x1',
+        value: 3,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'error', 'response should have valid property');
+        assert.deepEqual(res.body.error, 'Invalid coordinate');
+        done();
+      });
+  });
+
+  test('Check a puzzle placement with invalid placement coordinate (row col): POST request to /api/check', function (done) {
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: validPuzzleString,
+        coordinate: 'x20',
+        value: 3,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'error', 'response should have valid property');
+        assert.deepEqual(res.body.error, 'Invalid coordinate');
+        done();
+      });
+  });
+
+  test('Check a puzzle placement with invalid placement coordinate (col): POST request to /api/check', function (done) {
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: validPuzzleString,
+        coordinate: 'a20',
+        value: 3,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'error', 'response should have valid property');
+        assert.deepEqual(res.body.error, 'Invalid coordinate');
+        done();
+      });
+  });
 });
 /*
 Solve a puzzle with valid puzzle string: POST request to /api/solve
@@ -279,6 +336,6 @@ Check a puzzle placement with all fields: POST request to /api/check
 *Check a puzzle placement with missing required fields: POST request to /api/check
 *Check a puzzle placement with invalid characters: POST request to /api/check
 *Check a puzzle placement with incorrect length: POST request to /api/check
-Check a puzzle placement with invalid placement coordinate: POST request to /api/check
+*Check a puzzle placement with invalid placement coordinate: POST request to /api/check
 Check a puzzle placement with invalid placement value: POST request to /api/check
 */
