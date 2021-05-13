@@ -11,6 +11,12 @@ module.exports = function (app) {
     }
 
     const puzzleString = req.body.puzzle;
+    const validatedPuzzle = solver.validate(puzzleString);
+
+    if (!validatedPuzzle.isValid) {
+      return res.status(200).json(validatedPuzzle);
+    }
+
     const row = req.body.coordinate.slice(0, 1);
     const column = +req.body.coordinate.slice(1, 2);
     const value = +req.body.value;
