@@ -322,6 +322,25 @@ suite('Functional Tests', () => {
         done();
       });
   });
+
+  test('Check a puzzle placement with invalid placement value: POST request to /api/check', function (done) {
+    chai
+      .request(server)
+      .post('/api/check')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: validPuzzleString,
+        coordinate: 'a1',
+        value: 30,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'error', 'response should have valid property');
+        assert.deepEqual(res.body.error, 'Invalid value');
+        done();
+      });
+  });
 });
 /*
 Solve a puzzle with valid puzzle string: POST request to /api/solve
