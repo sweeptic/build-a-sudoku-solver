@@ -1,3 +1,4 @@
+import { puzzlesAndSolutions } from './../controllers/puzzle-strings';
 const chai = require('chai');
 const assert = chai.assert;
 
@@ -93,6 +94,19 @@ suite('UnitTests', () => {
     assert.isArray(result.conflict);
     assert.deepEqual(result.conflict, ['region']);
   });
+
+  test('Valid puzzle strings pass the solver ', () => {
+    const result = solver.solve(puzzlesAndSolutions[0][1]);
+    assert.isObject(result);
+    assert.property(result, 'solution', 'result should have solution property');
+  });
+
+  test('Invalid puzzle strings fail the solver ', () => {
+    const result = solver.solve(invalidPuzzleStringCannotBSolved);
+    assert.isObject(result);
+    assert.property(result, 'error', 'result should have error property');
+    assert.equal(res.body.error, 'Puzzle cannot be solved');
+  });
 });
 
 /*
@@ -105,7 +119,7 @@ suite('UnitTests', () => {
 *Logic handles an invalid column placement
 *Logic handles a valid region (3x3 grid) placement
 *Logic handles an invalid region (3x3 grid) placement
-Valid puzzle strings pass the solver
-Invalid puzzle strings fail the solver
+*Valid puzzle strings pass the solver
+*Invalid puzzle strings fail the solver
 Solver returns the the expected solution for an incomplete puzzle
 */
