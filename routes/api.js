@@ -1,6 +1,7 @@
 'use strict';
 
 const SudokuSolver = require('../controllers/sudoku-solver.js');
+const { getRow } = require('../controllers/Utils/utils.js');
 
 module.exports = function (app) {
   let solver = new SudokuSolver();
@@ -32,9 +33,12 @@ module.exports = function (app) {
     const value = +req.body.value;
     const conflicts = [];
 
-    const rowP = solver.checkRowPlacement(puzzleString, row, column, value);
-    const colP = solver.checkColPlacement(puzzleString, row, column, value);
-    const regP = solver.checkRegionPlacement(puzzleString, row, column, value);
+    const index = getRow(row) * column - 1;
+    const holeString = puzzleString.slice(0, index) + '.' + puzzleString.slice(index + 1);
+
+    const rowP = solver.checkRowPlacement(holeString, row, column, value);
+    const colP = solver.checkColPlacement(holeString, row, column, value);
+    const regP = solver.checkRegionPlacement(holeString, row, column, value);
 
     const result = {
       valid: rowP.valid && colP.valid && regP.valid,
