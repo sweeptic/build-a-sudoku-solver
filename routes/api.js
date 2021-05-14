@@ -58,5 +58,9 @@ module.exports = function (app) {
     if (!validatedPuzzle.isValid) {
       return res.status(200).json(validatedPuzzle);
     }
+
+    const puzzleSolution = solver.solve(puzzleString);
+
+    return res.status(200).json(puzzleSolution);
   });
 };
