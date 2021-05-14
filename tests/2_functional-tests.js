@@ -8,6 +8,7 @@ const {
   invalidPuzzleString_lessChar,
   validPuzzleString,
   invalidPuzzleString_moreChar,
+  invalidPuzzleStringCannotBSolved,
 } = require('./cases/puzzle');
 
 chai.use(chaiHttp);
@@ -359,9 +360,26 @@ suite('Functional Tests', () => {
         done();
       });
   });
+
+  test('Solve a puzzle that cannot be solved: POST request to /api/solve', function (done) {
+    chai
+      .request(server)
+      .post('/api/solve')
+      .set('content-type', 'application/x-www-form-urlencoded')
+      .send({
+        puzzle: invalidPuzzleStringCannotBSolved,
+      })
+      .end((err, res) => {
+        assert.equal(res.status, 200);
+        assert.isObject(res.body, 'response should be an object');
+        assert.property(res.body, 'error', 'response should have error property');
+        assert.equal(res.body.error, 'Puzzle cannot be solved - red stage');
+        done();
+      });
+  });
 });
 /*
-Solve a puzzle with valid puzzle string: POST request to /api/solve
+*Solve a puzzle with valid puzzle string: POST request to /api/solve
 *Solve a puzzle with missing puzzle string: POST request to /api/solve
 *Solve a puzzle with invalid characters: POST request to /api/solve
 *Solve a puzzle with incorrect length: POST request to /api/solve
