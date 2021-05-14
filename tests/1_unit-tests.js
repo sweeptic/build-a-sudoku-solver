@@ -8,6 +8,7 @@ const {
   invalidPuzzleString,
   invalidPuzzleString_moreChar,
   invalidPuzzleString_lessChar,
+  invalidPuzzleStringCannotBSolved,
 } = require('./cases/puzzle.js');
 let solver;
 
@@ -97,15 +98,17 @@ suite('UnitTests', () => {
 
   test('Valid puzzle strings pass the solver ', () => {
     const result = solver.solve(puzzlesAndSolutions[0][1]);
+    const puzzleSolution = puzzlesAndSolutions[0][1];
     assert.isObject(result);
     assert.property(result, 'solution', 'result should have solution property');
+    assert.equal(result.solution, puzzleSolution);
   });
 
   test('Invalid puzzle strings fail the solver ', () => {
     const result = solver.solve(invalidPuzzleStringCannotBSolved);
     assert.isObject(result);
     assert.property(result, 'error', 'result should have error property');
-    assert.equal(res.body.error, 'Puzzle cannot be solved');
+    assert.equal(result.error, 'Puzzle cannot be solved');
   });
 });
 
