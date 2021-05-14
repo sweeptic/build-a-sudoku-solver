@@ -33,7 +33,7 @@ module.exports = function (app) {
     const value = +req.body.value;
     const conflicts = [];
 
-    const index = getRow(row) * column - 1;
+    const index = (getRow(row) - 1) * 9 + column - 1;
     const holeString = puzzleString.slice(0, index) + '.' + puzzleString.slice(index + 1);
 
     const rowP = solver.checkRowPlacement(holeString, row, column, value);
