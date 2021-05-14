@@ -373,7 +373,7 @@ suite('Functional Tests', () => {
         assert.equal(res.status, 200);
         assert.isObject(res.body, 'response should be an object');
         assert.property(res.body, 'error', 'response should have error property');
-        assert.equal(res.body.error, 'Puzzle cannot be solved - red stage');
+        assert.equal(res.body.error, 'Puzzle cannot be solved');
         done();
       });
   });
